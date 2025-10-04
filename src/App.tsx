@@ -28,16 +28,18 @@ function getPreparedGoods(
 ): string[] {
   const preparedGoods = [...goods];
 
-  preparedGoods.sort((good1, good2) => {
-    switch (sortBy) {
-      case SortType.ALPHABET:
-        return good1.localeCompare(good2);
-      case SortType.LENGTH:
-        return good1.length - good2.length;
-      default:
-        return 0;
-    }
-  });
+  if (sortBy !== SortType.DEFAULT) {
+    preparedGoods.sort((good1, good2) => {
+      switch (sortBy) {
+        case SortType.ALPHABET:
+          return good1.localeCompare(good2);
+        case SortType.LENGTH:
+          return good1.length - good2.length;
+        default:
+          return 0;
+      }
+    });
+  }
 
   if (reverse) {
     preparedGoods.reverse();
@@ -94,9 +96,9 @@ export const App = () => {
       </div>
 
       <ul>
-        {visibleGoods.map((item, index) => {
+        {visibleGoods.map(item => {
           return (
-            <li data-cy="Good" key={index}>
+            <li data-cy="Good" key={item}>
               {item}
             </li>
           );
